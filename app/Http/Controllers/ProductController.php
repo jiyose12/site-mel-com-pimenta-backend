@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Category;
+use App\Subcategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,14 +14,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $products = Product::query()
         ->orderBy('name')
         ->get();
-        $message = $request->session()->get('message');
-
-        return view('products.index', compact('products', 'message'));
+        // $message = $request->session()->get('message');
+        // return view('products.index', compact('products', 'message'));
+        return $products;
     }
 
     /**
@@ -57,23 +59,28 @@ class ProductController extends Controller
         $category = Category::where('category', $request->category)->get('id');
         $subcategory = Subcategory::where('subcategory', $request->subcategory)->get('id');
 
-        $products = Itens::create([
+        $products = Product::create([
             'name'=> $request->name,
             'gross_price'=> $request->gross_price,
-            'net_price'=> $request->net_price,
             'discount'=> $request->discount,
-            'amount'=> $request->amount,
+            'amount' => $request->amount,
             'image_product'=> $fileNameToStore,
-            'category'=> $category,
-            'subcategory'=> $subcategory
+            'description' => $request->description,
+            'color' => $request->color,
+            'size' => $request->size,
+            'flavor' => $request->flavor,
+            'category_id'=> $category[0]->id,
+            'subcategory_id'=> $subcategory[0]->id
         ]);
-        $request->session()->flash(
-            'mensagem',
-            "Item {$products->id} criad@ com sucesso {$products->nome}"
-        );
+        // $request->session()->flash(
+        //     'message',
+        //     "Item {$products->id} criad@ com sucesso {$products->nome}"
+        // );
         // return redirect('/itens')->withInput(Request::only('nome'));
-        return  redirect()->route('listar_itens');
-
+        // return  redirect()->route('listar_itens');
+        return response()->json([
+            'message' => 'Produto criado com Sucesso'
+        ], 201);
 
     }
 

@@ -13,6 +13,7 @@ class Product extends Model
     'net_price',
     'discount',
     'amount',
+    'description',
     'color',
     'size',
     'flavor',
