@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use App\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubcategoryController extends Controller
 {
@@ -80,6 +82,21 @@ class SubcategoryController extends Controller
      */
     public function destroy(Subcategory $subcategory)
     {
-        //
+        $subcategoryName = '';
+
+        DB::transaction(function() use ($subcategory, &$subcategoryName) {
+            $subcategoryTemp = Subcategory::find($subcategory->id);
+            $subcategoryName = $subcategoryTemp->name;
+
+            $subcategoryTemp->products->each(function (Product $product){
+                $product->delete();
+            });
+
+            Subcategory::destroy($subcategory->id);
+        });
+        return response()->json([
+            'subcategoryName' => $subcategoryName,
+            'message' => 'Subcategoria excluída com sucesso'
+        ]);
     }
 }

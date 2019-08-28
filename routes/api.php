@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::post('/product/saveimage', 'ProductController@saveImage');
 Route::resource('product', 'ProductController');
 Route::resource('category', 'CategoryController');
+Route::resource('subcategory', 'SubcategoryController');

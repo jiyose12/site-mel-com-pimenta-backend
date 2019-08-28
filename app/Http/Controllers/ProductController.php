@@ -6,6 +6,8 @@ use App\Product;
 use App\Category;
 use App\Subcategory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -42,20 +44,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile('image_product')){
-            // Get filename with the extension
-            $filenameWithExt = $request->file('image_product')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('image_product')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
-            // Upload Image
-            $path = $request->file('image_product')->storeAs('public/image_product', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.png';
-        }
         $category = Category::where('category', $request->category)->get('id');
         $subcategory = Subcategory::where('subcategory', $request->subcategory)->get('id');
 
@@ -64,7 +52,7 @@ class ProductController extends Controller
             'gross_price'=> $request->gross_price,
             'discount'=> $request->discount,
             'amount' => $request->amount,
-            'image_product'=> $fileNameToStore,
+            'image_product'=> $request->fileNameToStore,
             'description' => $request->description,
             'color' => $request->color,
             'size' => $request->size,
@@ -72,16 +60,9 @@ class ProductController extends Controller
             'category_id'=> $category[0]->id,
             'subcategory_id'=> $subcategory[0]->id
         ]);
-        // $request->session()->flash(
-        //     'message',
-        //     "Item {$products->id} criad@ com sucesso {$products->nome}"
-        // );
-        // return redirect('/itens')->withInput(Request::only('nome'));
-        // return  redirect()->route('listar_itens');
         return response()->json([
             'message' => 'Produto criado com Sucesso'
         ], 201);
-
     }
 
     /**
@@ -90,9 +71,13 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Request $request)
     {
-        //
+        $product = Product::find($request->id);
+
+        return response()->json([
+            'product' => $product
+        ], 201);
     }
 
     /**
@@ -126,6 +111,38 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $productName = '';
+
+        DB::transaction(function() use ($product, &$productName) {
+            $productTemp = Product::findOrFail($product->id);
+            $productName = $productTemp->name;
+            Product::destroy($product->id);
+        });
+
+        return response()->json([
+            'productName' => $product,
+            'message' => 'Produto excluído com sucesso'
+        ]);
+    }
+    //Custom functions
+    public function saveImage(Request $request) {
+
+        if($request->hasFile('image_product')){
+            // Get filename with the extension
+            $filenameWithExt = $request->file('image_product')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('image_product')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            // Upload Image
+            // $path = $request->file('image_product')->storeAs('public/image_product', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.png';
+        }
+        return response()->json([
+            'fileNameToStore' => $fileNameToStore
+        ], 201);
     }
 }
