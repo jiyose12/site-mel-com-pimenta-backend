@@ -69,9 +69,13 @@ class SubcategoryController extends Controller
      * @param  \App\Subcategory  $subcategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subcategory $subcategory)
+    public function update(Request $request)
     {
-        //
+        DB::beginTransaction();
+        $updateSubcategory = Subcategory::findOrFail($request->id);
+        $updateSubcategory->subcategory = $request->subcategory;
+        $updateSubcategory->save();
+        DB::commit();
     }
 
     /**

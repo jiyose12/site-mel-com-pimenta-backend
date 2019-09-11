@@ -98,9 +98,74 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request)
     {
-        //
+        DB::beginTransaction();
+        if($request->name !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->name = $request->name;
+            $updateProduct->save();
+        }
+        elseif($request->description !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->description = $request->description;
+            $updateProduct->save();
+        }
+        elseif($request->gross_price !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->gross_price = $request->gross_price;
+            $updateProduct->save();
+        }
+        elseif($request->discount !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->discount = $request->discount;
+            $updateProduct->save();
+        }
+        elseif($request->amount !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->amount = $request->amount;
+            $updateProduct->save();
+        }
+        elseif($request->color !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->color = $request->color;
+            $updateProduct->save();
+        }
+        elseif($request->size !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->size = $request->size;
+            $updateProduct->save();
+        }
+        elseif($request->flavor !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->flavor = $request->flavor;
+            $updateProduct->save();
+        }
+        elseif($request->gross_price !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->gross_price = $request->gross_price;
+            $updateProduct->save();
+        }
+        elseif($request->category !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->category = $request->category;
+            $updateProduct->save();
+        }
+        elseif($request->subcategory !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->subcategory = $request->subcategory;
+            $updateProduct->save();
+        }
+        elseif($request->fileNameToStore !== null){
+            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct->fileNameToStore = $request->fileNameToStore;
+            $updateProduct->save();
+        }
+        DB::commit();
+
+        return response()->json([
+            'message' => 'Produto alterado com Sucesso'
+        ]);
     }
 
     /**
