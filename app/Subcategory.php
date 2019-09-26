@@ -8,7 +8,8 @@ class Subcategory extends Model
 {
     public $timestamps = false;
     protected $fillable = [
-    'subcategory'
+    'subcategory',
+    'category_id'
     ];
 
     public function category()

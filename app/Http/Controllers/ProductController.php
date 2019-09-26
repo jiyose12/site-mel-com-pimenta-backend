@@ -60,9 +60,10 @@ class ProductController extends Controller
             'category_id'=> $category[0]->id,
             'subcategory_id'=> $subcategory[0]->id
         ]);
-        return response()->json([
-            'message' => 'Produto criado com Sucesso'
-        ], 201);
+        return $products;
+        // return response()->json([
+        //     'message' => 'Produto criado com Sucesso'
+        // ], 201);
     }
 
     /**
@@ -202,7 +203,7 @@ class ProductController extends Controller
             // Filename to store
             $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
-            // $path = $request->file('image_product')->storeAs('public/image_product', $fileNameToStore);
+            $path = $request->file('image_product')->storeAs('public/image_product', $fileNameToStore);
         } else {
             $fileNameToStore = 'noimage.png';
         }
