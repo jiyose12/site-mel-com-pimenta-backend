@@ -16,10 +16,13 @@ class ProductTableSeeder extends Seeder
             [
                 'name' => 'Algemas Pretas',
                 'gross_price' => 50,
+                'net_price' => 50,
                 'discount' => 5,
                 'amount' => 10,
                 'description' => 'Algemas grandes de cor preta para todas as ocasiões',
                 'color' => 'preto',
+                'size' => '50',
+                'flavor' => '50',
                 'image_product' => 'noimage.png',
                 'category_id' => 2,
                 'subcategory_id' => 9
@@ -27,11 +30,13 @@ class ProductTableSeeder extends Seeder
             [
                 'name' => 'Calcinha da Vovó',
                 'gross_price' => 25,
+                'net_price' => 50,
                 'discount' => 50,
                 'amount' => 660,
                 'description' => 'Calcinha extremamente grande',
                 'color' => 'rosa',
                 'size' => '50',
+                'flavor' => '50',
                 'image_product' => 'noimage.png',
                 'category_id' => 1,
                 'subcategory_id' => 1

@@ -60,10 +60,10 @@ class ProductController extends Controller
             'category_id'=> $category[0]->id,
             'subcategory_id'=> $subcategory[0]->id
         ]);
-        return $products;
-        // return response()->json([
-        //     'message' => 'Produto criado com Sucesso'
-        // ], 201);
+	return $products;
+       /* return response()->json([
+            'message' => 'Produto criado com Sucesso'
+        ], 201);*/
     }
 
     /**
@@ -72,6 +72,8 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
+
+/**
     public function show(Request $request)
     {
         $product = Product::find($request->id);
@@ -79,6 +81,17 @@ class ProductController extends Controller
         return response()->json([
             'product' => $product
         ], 201);
+    }
+*/
+    public function show($id){
+        return Product::find($id);
+    }
+
+    public function update(Request $request, $id){
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return $product;
+
     }
 
     /**
@@ -99,6 +112,7 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
+/**
     public function update(Request $request)
     {
         DB::beginTransaction();
@@ -167,14 +181,18 @@ class ProductController extends Controller
         return response()->json([
             'message' => 'Produto alterado com Sucesso'
         ]);
-    }
+    } */
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
+
      */
+
+
+
     public function destroy(Product $product)
     {
         $productName = '';
@@ -203,7 +221,7 @@ class ProductController extends Controller
             // Filename to store
             $fileNameToStore= $filename.'_'.time().'.'.$extension;
             // Upload Image
-            $path = $request->file('image_product')->storeAs('public/image_product', $fileNameToStore);
+            $path = $request->file('image_product')->storeAs('public\image_product', $fileNameToStore);
         } else {
             $fileNameToStore = 'noimage.png';
         }
@@ -211,4 +229,6 @@ class ProductController extends Controller
             'fileNameToStore' => $fileNameToStore
         ], 201);
     }
+
+
 }
