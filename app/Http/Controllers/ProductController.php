@@ -87,12 +87,12 @@ class ProductController extends Controller
         return Product::find($id);
     }
 
-    public function update(Request $request, $id){
-        $product = Product::findOrFail($id);
-        $product->update($request->all());
-        return $product;
+    // public function update(Request $request, $id){
+    //     $product = Product::findOrFail($id);
+    //     $product->update($request->all());
+    //     return $product;
 
-    }
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -112,68 +112,68 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-/**
-    public function update(Request $request)
+
+    public function update(Request $request, $id)
     {
         DB::beginTransaction();
         if($request->name !== null){
-            $updateProduct = Product::findOrFail($request->id);
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->name = $request->name;
             $updateProduct->save();
         }
-        elseif($request->description !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->description !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->description = $request->description;
             $updateProduct->save();
         }
-        elseif($request->gross_price !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->gross_price !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->gross_price = $request->gross_price;
             $updateProduct->save();
         }
-        elseif($request->discount !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->discount !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->discount = $request->discount;
             $updateProduct->save();
         }
-        elseif($request->amount !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->amount !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->amount = $request->amount;
             $updateProduct->save();
         }
-        elseif($request->color !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->color !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->color = $request->color;
             $updateProduct->save();
         }
-        elseif($request->size !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->size !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->size = $request->size;
             $updateProduct->save();
         }
-        elseif($request->flavor !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->flavor !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->flavor = $request->flavor;
             $updateProduct->save();
         }
-        elseif($request->gross_price !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->gross_price !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->gross_price = $request->gross_price;
             $updateProduct->save();
         }
-        elseif($request->category !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->category !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->category = $request->category;
             $updateProduct->save();
         }
-        elseif($request->subcategory !== null){
-            $updateProduct = Product::findOrFail($request->id);
+        if($request->subcategory !== null){
+            $updateProduct = Product::findOrFail($id);
             $updateProduct->subcategory = $request->subcategory;
             $updateProduct->save();
         }
-        elseif($request->fileNameToStore !== null){
-            $updateProduct = Product::findOrFail($request->id);
-            $updateProduct->fileNameToStore = $request->fileNameToStore;
+        if($request->image_product !== null){
+            $updateProduct = Product::findOrFail($id);
+            $updateProduct->image_product = $request->image_product;
             $updateProduct->save();
         }
         DB::commit();
@@ -181,7 +181,7 @@ class ProductController extends Controller
         return response()->json([
             'message' => 'Produto alterado com Sucesso'
         ]);
-    } */
+    }
 
     /**
      * Remove the specified resource from storage.
