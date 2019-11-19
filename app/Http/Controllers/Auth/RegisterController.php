@@ -68,7 +68,7 @@ class RegisterController extends Controller
         return response()->json([
             'success' => false,
             'errors' => $validator->errors()
-        ]);
+        ], 422);
     //     $credentials = request(['email', 'password']);
     // if (!$token = auth('api')->attempt($credentials)) {
     //     return response()->json(['error' => 'Unauthorized'], 401);

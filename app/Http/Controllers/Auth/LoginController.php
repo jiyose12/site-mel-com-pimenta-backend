@@ -69,14 +69,24 @@ class LoginController extends Controller
             if (!$token = auth('api')->attempt($credentials)){
                 return response()->json([
                     'success' => false,
-                    'errors' => 'Unauthorized'
-                ], 401);
+                    'errors' => [
+                        'email' => [
+                            "Invalid email address or password"
+                        ]
+                    ]
+                ], 422);
+
             }
         } catch (JWTException $e) {
             return response()->json([
                 'success' => false,
-                'errors' => 'Unauthorized'
-            ], 401);
+                'errors' => [
+                    'email' => [
+                        "Invalid email address or password"
+                    ]
+                ]
+            ], 422);
+
         }
     return response()->json([
         'success' => true,
